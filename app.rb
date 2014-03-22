@@ -18,7 +18,9 @@ module WeSoc
     rescue_from :all
     version 'v1', using: :header, vendor: 'rewired_state'
 
-
+    get "/" do
+      redirect 'index.html'
+    end
 
     resource :sentiment do
       desc "Return social responses to a company"
@@ -31,7 +33,6 @@ module WeSoc
         end
       end
     end
-
 
     resource :companies do
       desc "Return social responses to a company"
