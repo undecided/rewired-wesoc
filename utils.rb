@@ -28,7 +28,16 @@ class Array
   def sort_by_method(meth)
     sort { |a, b| a.send(meth) <=> b.send(meth) }
   end
+
   def sort_by_key(key)
     sort { |a, b| a[key] <=> b[key] }
+  end
+
+  def middle_item
+    self[length / 2]
+  end
+
+  def mean_by_key(key)
+    inject(0) {|acc, item| acc + item[key] } / length.to_f
   end
 end

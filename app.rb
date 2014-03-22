@@ -4,7 +4,7 @@ Bundler.require(:default, WESOC_ENV.to_sym)
 Dotenv.load
 
 require 'logger'
-LOGGER = Logger.new(WESOC_ENV)
+LOGGER = Logger.new("log/#{WESOC_ENV}.log")
 LOGGER.warn "App restarted"
 
 require './utils'
@@ -53,10 +53,10 @@ module WeSoc
               :overall_feeling => {
                 :min => sorted.first[:sentiment],
                 :max => sorted.last[:sentiment],
-                :mean => 0,
-                :median => 0
+                :mean => sorted.mean_by_key(:sentiment),
+                :median => sorted.middle_item[:sentiment]
               },
-              :tweets => tweets
+              :tweets => sorted
             }
           }
         end
