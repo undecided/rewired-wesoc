@@ -1,76 +1,68 @@
-require 'dotenv'
+WESOC_ENV = ENV['RAILS_ENV'] || ENV['RACK_ENV'] || 'development'
+
+Bundler.require(:default, WESOC_ENV.to_sym)
 Dotenv.load
+
+require 'logger'
+LOGGER = Logger.new(WESOC_ENV)
+LOGGER.warn "App restarted"
+
+require './utils'
 
 module WeSoc
   class API < Grape::API
-    version 'v1', using: :header, vendor: 'rewired_state'
+    include Config
+
+    logger LOGGER
     format :json
+    rescue_from :all
+    version 'v1', using: :header, vendor: 'rewired_state'
 
-    helpers do
-      def current_user
-        @current_user ||= User.authorize!(env)
+
+
+    resource :sentiment do
+      desc "Return social responses to a company"
+      params do
+        requires :text, type: String, desc: "Some text to give the sentiment for"
       end
+      route_param :text do
+        get do
 
-      def authenticate!
-        error!('401 Unauthorized', 401) unless current_user
+        end
       end
     end
 
-    resource :statuses do
-      desc "Return a public timeline."
-      get :public_timeline do
-        Status.limit(20)
-      end
 
-      desc "Return a personal timeline."
-      get :home_timeline do
-        authenticate!
-        current_user.statuses.limit(20)
-      end
-
-      desc "Return a status."
+    resource :companies do
+      desc "Return social responses to a company"
       params do
-        requires :id, type: Integer, desc: "Status id."
+        requires :name, type: String, desc: "Company name"
       end
-      route_param :id do
+
+      route_param :name do
         get do
-          Status.find(params[:id])
+          tweets = Utils.twitter.search(params[:name], :lang => :en)
+          tweets = tweets.map do |t|
+            {:text => t.text, :sentiment => Utils.sentiment_score(t.text) }
+          end
+
+          sorted = tweets.sort_by_key :sentiment
+
+          {
+            :twitter => {
+              :overall_feeling => {
+                :min => sorted.first[:sentiment],
+                :max => sorted.last[:sentiment],
+                :mean => 0,
+                :median => 0
+              },
+              :tweets => tweets
+            }
+          }
         end
-      end
-
-      desc "Create a status."
-      params do
-        requires :status, type: String, desc: "Your status."
-      end
-      post do
-        authenticate!
-        Status.create!({
-          user: current_user,
-          text: params[:status]
-        })
-      end
-
-      desc "Update a status."
-      params do
-        requires :id, type: String, desc: "Status ID."
-        requires :status, type: String, desc: "Your status."
-      end
-      put ':id' do
-        authenticate!
-        current_user.statuses.find(params[:id]).update({
-          user: current_user,
-          text: params[:status]
-        })
-      end
-
-      desc "Delete a status."
-      params do
-        requires :id, type: String, desc: "Status ID."
-      end
-      delete ':id' do
-        authenticate!
-        current_user.statuses.find(params[:id]).destroy
       end
     end
   end
 end
+
+
