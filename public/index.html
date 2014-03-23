@@ -2,20 +2,64 @@
 <html>
 <head>
 	<title>WeSoc Api</title>
+	<link href='http://fonts.googleapis.com/css?family=The+Girl+Next+Door|Candal' rel='stylesheet' type='text/css'>
+	<link href='/css/styles.css' rel='stylesheet' type='text/css'>
+	<script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
+	<script type="text/javascript" src='js/scripts.js'></script>
 </head>
 <body>
-	<h1>WeSoc - See a company through the world's eyes.</h1>
-	<h5>Aim: Collate the world's views on a particular company.</h5>
+	<div class="backgrounded">
+		<header>
+			<h1>WeSoc</h1>
+			<h2>See companies through the world's eyes.</h2>
+			<h5>Aim: Collate the world's views on a particular company.</h5>
+		</header>
+	</div>
 
-	<p>We do analysis and realtime data delivery on various sources:</p>
-	<ul>
-		<li>News outlets (the good ones)</li>
-		<li>Facebook (if you want)</li>
-		<li>Twitter (duh, who doesn't?)</li>
-	</ul>
-	<p>All returned via beautiful JSON!</p>
+	<div class='backgroundless'>
+		<section>
+			<form>
+				<input type="text" placeholder="Enter a company name to analyse">
+				<a href="javascript:void(0)" title="Ask twitter" class="go button">Go</a>
+				<div class='raw-url'></div>
+				<div class='results'>
+					<table>
+						<tr>
+							<th colspan='2'>
+								Company:
+								<span class='company'></span>
+							</th>
+						</tr>
+						<tr>
+							<th>
+								Tweets
+							</th>
+							<th>
+								Sentiment summary
+							</th>
+						</tr>
+						<tr>
+							<td class='tweets'></td>
+							<td class='summary'></td>
+						</tr>
+					</table>
+				</div>
+			</form>
+		</section>
+		<section>
+			<p>We do analysis and realtime data delivery on various sources:</p>
+			<ul>
+				<li>News outlets (the good ones) <em>coming soon!</em></li>
+				<li>Facebook (if you want) <em>coming soon!</em></li>
+				<li>Twitter (duh, who doesn't?)</li>
+			</ul>
+			<p>All returned via beautiful JSON!</p>
+		</section>
 
-	<h2>API Documentation</h2>
-	<h4>TODO: Show JSON</h4>
+		<section>
+			<h2>API Documentation</h2>
+			<h4>TODO: Show JSON</h4>
+		</section>
+	</div>
 </body>
 </html>

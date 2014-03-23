@@ -1,0 +1,93 @@
+body {
+	margin: 0;
+	font-size: 1.4em;
+}
+header, section {
+	font-family: 'The Girl Next Door', cursive;
+	max-width: 800px;
+	padding: 10px 80px;
+	margin: 20px auto;
+}
+header {
+	font-family: 'Candal', sans-serif;
+	padding-top: 40px;
+	padding-bottom: 50px;
+	margin-top: 0;
+}
+h1 {
+	font-size: 1.6em;
+}
+h2 {
+	font-size: 1.4em;
+}
+input, .button {
+	width: 94%;
+	padding: 10px 3% 15px;
+	border: 1px solid #DDE;
+	font-family: 'Candal', sans-serif;
+	font-size: 1.4em;
+	display: inline-block;
+}
+a.button {
+	color: #DDE;
+	text-decoration: none;
+	cursor: default;
+	text-align: center;
+	margin-top: 2px;
+}
+a.button.ready {
+	color: #99A;
+}
+a.button.ready:hover {
+	color: #334;
+	background-color: #EEF;
+	cursor: pointer;
+	cursor: hand;
+}
+
+.backgrounded {
+	background: url('/img/skulls.png');
+	box-shadow: 2px 2px 8px #DDE;
+}
+
+.results {
+	display: none;
+	height: 500px;
+	overflow-y: auto;
+}
+
+table {
+	font-family: serif;
+	font-size: 0.6em;
+	box-shadow: 2px 2px 8px #DDE;
+	border: 2px solid #DDE;
+	width: 99%;
+}
+
+table .red {
+	color: #C00;
+}
+table .green {
+	color: #0C0;
+}
+
+.tweets p {
+	padding: 2px 5px;
+	height: 1.1em;
+	margin: 0;
+	overflow: hidden;
+}
+.tweets p:hover {
+	height: auto;
+	overflow: visible;
+}
+
+.tweets p:nth-child(2n) {
+	background-color: #EEE;
+}
+
+.summary {
+	vertical-align: top;
+}
+
+td { padding: 10px;}
