@@ -90,4 +90,7 @@ table .green {
 	vertical-align: top;
 }
 
-td { padding: 10px;}
+td {
+	padding: 10px;
+	max-width: 500px;
+}

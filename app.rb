@@ -4,7 +4,7 @@ Bundler.require(:default, WESOC_ENV.to_sym)
 Dotenv.load
 
 require 'logger'
-LOGGER = Logger.new("log/#{WESOC_ENV}.log") rescue Logger.new($STDERR)
+LOGGER = Logger.new($stdout)
 LOGGER.warn "App restarted"
 
 require './utils'
