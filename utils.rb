@@ -38,6 +38,7 @@ class Array
   end
 
   def mean_by_key(key)
+    return 0 if length == 0
     inject(0) {|acc, item| acc + item[key] } / length.to_f
   end
 end

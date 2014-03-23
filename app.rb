@@ -52,10 +52,10 @@ module WeSoc
           {
             :twitter => {
               :overall_feeling => {
-                :min => sorted.first[:sentiment],
-                :max => sorted.last[:sentiment],
+                :min => sorted.middle_item ? sorted.first[:sentiment] : 0,
+                :max => sorted.middle_item ? sorted.last[:sentiment] : 0,
                 :mean => sorted.mean_by_key(:sentiment),
-                :median => sorted.middle_item[:sentiment]
+                :median => sorted.middle_item ? sorted.middle_item[:sentiment] : 0
               },
               :tweets => sorted
             }
