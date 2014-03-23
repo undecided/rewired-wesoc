@@ -25,12 +25,14 @@ module WeSoc
     resource :sentiment do
       desc "Return social responses to a company"
       params do
-        requires :text, type: String, desc: "Some text to give the sentiment for"
+        requires :texts, type: Array, desc: "Some texts to give the sentiment for"
       end
-      route_param :text do
-        get do
-
-        end
+      post do
+        texts = Utils.analyse params[:texts]
+        {
+          :overall_feeling => Utils.summarize(texts),
+          :texts => texts
+        }
       end
     end
 
@@ -43,21 +45,12 @@ module WeSoc
       route_param :name do
         get do
           tweets = Utils.twitter.search(params[:name], :lang => :en)
-          tweets = tweets.map do |t|
-            {:text => t.text, :sentiment => Utils.sentiment_score(t.text) }
-          end
-
-          sorted = tweets.sort_by_key :sentiment
+          tweets = Utils.analyse tweets.map(&:text)
 
           {
             :twitter => {
-              :overall_feeling => {
-                :min => sorted.middle_item ? sorted.first[:sentiment] : 0,
-                :max => sorted.middle_item ? sorted.last[:sentiment] : 0,
-                :mean => sorted.mean_by_key(:sentiment),
-                :median => sorted.middle_item ? sorted.middle_item[:sentiment] : 0
-              },
-              :tweets => sorted
+              :overall_feeling => Utils.summarize(tweets),
+              :tweets => tweets
             }
           }
         end

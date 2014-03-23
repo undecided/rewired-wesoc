@@ -19,6 +19,20 @@ module WeSoc
         Sentimental.threshold = 0.1
         Sentimental.new
       end
+
+      def analyse(texts)
+        texts.map {|text| {:text => text, :sentiment => sentiment_score(text)} }
+      end
+
+      def summarize(analysed_texts)
+        analysed_texts = analysed_texts.sort_by_key :sentiment
+        {
+          :min => analysed_texts.middle_item ? analysed_texts.first[:sentiment] : 0,
+          :max => analysed_texts.middle_item ? analysed_texts.last[:sentiment] : 0,
+          :mean => analysed_texts.mean_by_key(:sentiment),
+          :median => analysed_texts.middle_item ? analysed_texts.middle_item[:sentiment] : 0
+        }
+      end
     end
   end
 end
