@@ -14,9 +14,10 @@ module WeSoc
         (@sentiment_analyzer ||= setup_sentimental).get_score text
       end
 
-      def setup_sentimental
+      def setup_sentimental(threshold = 0.2)
+        @threshold = threshold
         Sentimental.load_defaults
-        Sentimental.threshold = 0.1
+        Sentimental.threshold = @threshold
         Sentimental.new
       end
 
@@ -30,7 +31,12 @@ module WeSoc
           :min => analysed_texts.middle_item ? analysed_texts.first[:sentiment] : 0,
           :max => analysed_texts.middle_item ? analysed_texts.last[:sentiment] : 0,
           :mean => analysed_texts.mean_by_key(:sentiment),
-          :median => analysed_texts.middle_item ? analysed_texts.middle_item[:sentiment] : 0
+          :median => analysed_texts.middle_item ? analysed_texts.middle_item[:sentiment] : 0,
+          :count => analysed_texts.count,
+          :positive_count => analysed_texts.select { |t| t[:sentiment] > @threshold}.count,
+          :negative_count => analysed_texts.select { |t| t[:sentiment] < -@threshold}.count,
+          :neutral_count => analysed_texts.select { |t| t[:sentiment] <= @threshold && t[:sentiment] >= -@threshold}.count,
+          :sentiment_threshold => @threshold
         }
       end
     end
